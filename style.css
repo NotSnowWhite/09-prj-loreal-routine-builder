@@ -89,6 +89,154 @@ body {
   border-color: #666;
 }
 
+/* Search wrapper and expanded panel */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  width: 340px;
+  max-width: 45%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(180deg, #fff, #fffdfa);
+  box-shadow: 0 8px 20px rgba(16, 16, 16, 0.05);
+  font-weight: 600;
+  color: #222;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  border-color: rgba(255, 0, 59, 0.24);
+}
+
+.search-panel {
+  position: absolute;
+  left: 0;
+  top: 56px;
+  width: 100%;
+  max-width: 720px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 18px 40px rgba(16, 16, 16, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 60;
+  display: none;
+}
+
+.search-panel.open {
+  display: block;
+}
+
+.search-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.search-panel-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.search-bubbles {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.search-bubble {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  color: #222;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.search-bubble:hover {
+  transform: translateY(-2px);
+}
+
+.search-bubble.active {
+  background: linear-gradient(90deg, var(--brand-gold), var(--brand-red));
+  color: #fff;
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.search-dropdown {
+  max-height: 220px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+  padding-top: 8px;
+}
+
+.search-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px 6px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.search-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.search-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgba(10, 10, 10, 0.06);
+}
+
+.search-item .meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item .meta .name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111;
+}
+
+.search-item .meta .small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* brief highlight animation when selecting from dropdown */
+.product-card.pulse {
+  animation: pulseHighlight 900ms ease-in-out;
+}
+@keyframes pulseHighlight {
+  0% {
+    box-shadow: 0 0 0 rgba(227, 165, 53, 0);
+    transform: translateY(0);
+  }
+  30% {
+    box-shadow: 0 14px 40px rgba(227, 165, 53, 0.12);
+    transform: translateY(-6px);
+  }
+  100% {
+    box-shadow: var(--card-shadow);
+    transform: translateY(0);
+  }
+}
+
 /* chat section */
 .chatbox {
   margin: 36px 0;
@@ -118,6 +266,193 @@ body {
   margin-bottom: 18px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* Conversation-style chat bubbles */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-message {
+  display: inline-block;
+  max-width: 78%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.45;
+  box-shadow: 0 12px 30px rgba(12, 12, 12, 0.08);
+  opacity: 0.98;
+  word-wrap: break-word;
+  position: relative;
+  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 220ms ease;
+  transform-origin: center;
+}
+
+/* glossy highlight inside bubble */
+.chat-message::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  right: 8px;
+  height: 36%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.04)
+  );
+  border-radius: 12px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Bubbly entry animation */
+@keyframes bubbleIn {
+  0% {
+    transform: scale(0.92) translateY(10px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.03) translateY(-6px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.chat-message {
+  animation: bubbleIn 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+/* Assistant (AI) messages: left-aligned, softer gold bubble */
+.chat-message.chat-assistant {
+  align-self: flex-start;
+  background: linear-gradient(
+    180deg,
+    rgba(227, 165, 53, 0.18),
+    rgba(227, 165, 53, 0.12)
+  );
+  color: #111;
+  border-radius: 18px 18px 18px 8px;
+  box-shadow: 0 18px 34px rgba(222, 166, 55, 0.12);
+}
+
+.chat-message.chat-assistant::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 14px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid rgba(227, 165, 53, 0.18);
+}
+
+/* User messages: right-aligned, softer red/pink bubble */
+.chat-message.chat-user {
+  align-self: flex-end;
+  align-self: flex-end;
+  /* on-theme red (#ff003b) with light opacity for a softer bubble */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 59, 1),
+    rgba(255, 0, 59, 0.6)
+  );
+  color: #fff;
+  border-radius: 18px 18px 8px 18px;
+  box-shadow: 0 18px 34px rgba(255, 0, 59, 0.12);
+}
+
+.chat-message.chat-user::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  top: 14px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid rgba(255, 0, 59, 0.18);
+}
+
+.chat-message:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.chat-window .chat-message + .chat-message {
+  margin-top: 8px;
+}
+
+/* RTL support: when the document or container uses dir="rtl" the layout flips */
+[dir="rtl"] body,
+[dir="rtl"] .page-wrapper {
+  direction: rtl;
+}
+
+/* Flip the category select to RTL reading order */
+[dir="rtl"] .search-section select {
+  direction: rtl;
+}
+
+/* Product card spacing: swap left padding to right in RTL */
+[dir="rtl"] .product-card {
+  padding-left: 14px; /* keep base padding */
+  padding-right: 14px; /* ensure symmetric fallback */
+}
+
+/* Move remove badge to left in RTL */
+[dir="rtl"] .remove-badge {
+  right: auto;
+  left: -2px;
+}
+
+/* Selected products flow: center content and ensure RTL text alignment */
+[dir="rtl"] .selected-products {
+  text-align: center;
+}
+
+/* Chat: flip bubble sides for RTL (assistant on right, user on left) */
+[dir="rtl"] .chat-message.chat-assistant {
+  align-self: flex-end;
+  border-radius: 18px 18px 8px 18px; /* mirror radii */
+}
+
+[dir="rtl"] .chat-message.chat-assistant::after {
+  left: auto;
+  right: -6px;
+  border-left: none;
+  border-right: 10px solid rgba(227, 165, 53, 0.18);
+}
+
+[dir="rtl"] .chat-message.chat-user {
+  align-self: flex-start;
+  border-radius: 18px 18px 18px 8px;
+}
+
+[dir="rtl"] .chat-message.chat-user::after {
+  right: auto;
+  left: -6px;
+  border-right: none;
+  border-left: 10px solid rgba(255, 0, 59, 0.18);
+}
+
+/* Chat form: flip control order and input alignment in RTL */
+[dir="rtl"] .chat-form {
+  direction: rtl;
+}
+
+[dir="rtl"] .chat-form input {
+  text-align: right;
+}
+
+/* Ensure product badges read right-to-left when in RTL */
+[dir="rtl"] .product-badge {
+  direction: rtl;
 }
 
 /* placeholder message */
@@ -444,4 +779,31 @@ body {
   .site-header::after {
     width: 90px;
   }
+}
+
+/* Clear All button (matches round red style with white text) */
+.clear-btn {
+  display: block;
+  margin: 12px auto;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand-red), #c70033 70%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(255, 0, 59, 0.14);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  width: fit-content;
+}
+
+.clear-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(255, 0, 59, 0.18);
+}
+
+.clear-btn:focus {
+  outline: 3px solid rgba(227, 165, 53, 0.18);
+  outline-offset: 3px;
 }

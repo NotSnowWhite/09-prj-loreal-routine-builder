@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="ltr" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +23,7 @@
         <h1 class="site-title">Smart Routine &amp; Product Advisor</h1>
       </header>
 
-      <!-- Category Filter -->
+      <!-- Category Filter + Search -->
       <div class="search-section">
         <select id="categoryFilter">
           <option value="" disabled selected>Choose a Category</option>
@@ -37,6 +37,38 @@
           <option value="suncare">Suncare</option>
           <option value="fragrance">Fragrance</option>
         </select>
+        <div class="search-wrapper">
+          <label for="searchInput" class="visually-hidden"
+            >Search products</label
+          >
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search products by name or keyword"
+            autocomplete="off"
+            class="search-input"
+          />
+
+          <!-- Expanded search panel (appears when search is focused) -->
+          <div class="search-panel" id="searchPanel" aria-hidden="true">
+         
+            <div
+              class="search-bubbles"
+              id="searchBubbles"
+              aria-label="Quick filters"
+            >
+              <!-- bubbles injected by JS -->
+            </div>
+            <div
+              class="search-dropdown"
+              id="searchDropdown"
+              role="listbox"
+              aria-label="Matching products"
+            >
+              <!-- product matches inserted here -->
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Products Grid -->
