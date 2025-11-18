@@ -287,6 +287,41 @@ body {
   background: linear-gradient(90deg, var(--brand-red), var(--brand-gold));
 }
 
+/* Make product badges a positioned container so the remove button can sit inside */
+.product-badge {
+  position: relative;
+  padding-right: 36px;
+}
+
+/* Small round red remove button inside selected badges */
+.remove-badge {
+  position: absolute;
+  top: -3px;
+  right: -2px;
+  width: 19px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-red);
+  color: #fff;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(255, 0, 59, 0.12);
+}
+
+.remove-badge:hover {
+  transform: translateY(-1px);
+}
+
+.remove-badge:focus {
+  outline: 2px solid rgba(227, 165, 53, 0.18);
+  outline-offset: 2px;
+}
+
 /* selected products */
 .selected-products {
   margin: 36px 0;

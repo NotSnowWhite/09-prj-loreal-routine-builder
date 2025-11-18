@@ -28,9 +28,21 @@ function toggleProductSelectionById(productId, cardEl) {
   if (selectedProductIds.has(productId)) {
     selectedProductIds.delete(productId);
     if (cardEl) cardEl.classList.remove("selected");
+    else {
+      const rendered = productsContainer.querySelector(
+        `.product-card[data-id="${productId}"]`
+      );
+      if (rendered) rendered.classList.remove("selected");
+    }
   } else {
     selectedProductIds.add(productId);
     if (cardEl) cardEl.classList.add("selected");
+    else {
+      const rendered = productsContainer.querySelector(
+        `.product-card[data-id="${productId}"]`
+      );
+      if (rendered) rendered.classList.add("selected");
+    }
   }
   updateSelectedProductsUI();
 }
@@ -41,12 +53,28 @@ function updateSelectedProductsUI() {
   selectedProductsList.innerHTML = Array.from(selectedProductIds)
     .map((id) => {
       const product = allProducts.find((p) => p.id === id);
-      return `<div class="product-badge">${
-        product ? product.name : "#" + id
-      }</div>`;
+      const name = product ? product.name : "#" + id;
+      return `
+      <div class="product-badge" data-id="${id}">
+        ${name}
+        <button class="remove-badge" aria-label="Remove ${name}" data-id="${id}">×</button>
+      </div>
+    `;
     })
     .join("");
 }
+
+// Allow removing items directly from the selected products list
+document
+  .getElementById("selectedProductsList")
+  .addEventListener("click", (e) => {
+    const btn = e.target.closest(".remove-badge");
+    if (!btn) return;
+    const idStr = btn.dataset.id;
+    const id = idStr ? parseInt(idStr, 10) : NaN;
+    if (!id) return;
+    toggleProductSelectionById(id);
+  });
 
 /* Create HTML for displaying product cards. If a product's id is selected, add the `selected` class. */
 function displayProducts(products) {
