@@ -81,21 +81,40 @@ function displayProducts(products) {
   productsContainer.innerHTML = products
     .map((product) => {
       const isSelected = selectedProductIds.has(product.id);
-      // Use a safe data-id attribute (numeric) to avoid breaking HTML when product text contains apostrophes
+      // Render a small info button and a hidden description panel inside each card
       return `
     <div class="product-card${isSelected ? " selected" : ""}" data-id="${
         product.id
       }">
+      <button class="info-toggle" aria-expanded="false" aria-controls="desc-${
+        product.id
+      }">info</button>
       <img src="${product.image}" alt="${product.name}">
       <div class="product-info">
         <h3>${product.name}</h3>
         <p>${product.brand}</p>
+        <div id="desc-${product.id}" class="product-desc">${
+        product.description
+      }</div>
       </div>
     </div>
   `;
     })
     .join("");
 }
+
+/* Toggle product description when info button is clicked (delegated) */
+productsContainer.addEventListener("click", (e) => {
+  const infoBtn = e.target.closest(".info-toggle");
+  if (!infoBtn) return;
+  const card = infoBtn.closest(".product-card");
+  if (!card) return;
+  const idStr = card.dataset.id;
+  const productId = idStr ? parseInt(idStr, 10) : NaN;
+  if (!productId) return;
+  const expanded = card.classList.toggle("expanded");
+  infoBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
+});
 
 /* Event delegation: handle clicks on product cards inside the container */
 productsContainer.addEventListener("click", (e) => {
